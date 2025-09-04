@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CSU PROTOCOL :: AI NARRATIVE AUDIT</title>
+        <link rel="icon" type="image/svg+xml" href="favicon.svg">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        <style>
+            /* I. CORE PHILOSOPHY :: THE ACT OF RENDERING */
+            /* Render don’t explain. Prompt don’t pitch. Show don’t summarize. Perform the medium. */
+            :root {
+                --color-terminal-black: #000000;
+                --color-ghost-white: #F5F5F5;
+                --color-editorial-red: #FF0055;
+                --color-signal-blue: #8AC8FF;
+                --font-primary: 'JetBrains Mono', 'Fira Code', 'IBM Plex Mono', monospace;
+                --font-secondary: 'Merriweather', 'Georgia', 'Times New Roman', serif;
+                --header-height: 8vh;
+                --footer-height: 10vh;
+                --status-bar-height: 4vh;
+            }
+
+            /* Reset and Base Styles */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+
+            html, body {
+                height: 100%;
+                font-family: var(--font-primary);
+                background-color: var(--color-terminal-black);
+                color: var(--color-ghost-white);
+                overflow: hidden;
+                /* Control scroll behavior */
+                position: relative;
+            }
+
+            /* III. VISUAL IDENTITY :: THE PROMPT SPACE */
+            /* A. COLOR LOGIC :: THE SIGNAL ARCHITECTURE */
+            /* B. TYPOGRAPHY PROTOCOL :: TEXT AS PERFORMANCE */
+            h1, h2, h3, h4, h5, h6, .ui-element {
+                text-transform: uppercase;
+                font-weight: 700;
+                /* BOLD */
+            }
+
+            a {
+                color: var(--color-editorial-red);
+                text-decoration: none;
+                transition: color 0.1s linear;
+                /* Brutalist transition */
+            }
+
+            a:hover {
+                color: var(--color-signal-blue);
+                cursor: none;
+                /* Managed by custom cursor */
+            }
+
+            strong, .signal-highlight {
+                color: var(--color-signal-blue);
+                /* Programmatic Emphasis */
+            }
+
+            blockquote {
+                font-family: var(--font-secondary);
+                font-style: normal;
+                /* No Italics */
+                border-left: 2px solid var(--color-editorial-red);
+                padding-left: 1.5vw;
+                margin: 2vh 0;
+                color: var(--color-ghost-white);
+                /* Merriweather for critique */
+            }
+
+            /* C. TEXTURES & OVERLAYS :: THE COMPILING REALITY */
+            /* Flat Matte Backgrounds, Visual Noise, Animated Scanlines / Vignette */
+            body::before, body::after {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 9999;
+            }
+
+            /* Scanlines */
+            body::before {
+                background: repeating-linear-gradient( 0deg, rgba(0, 0, 0, 0.05) 0px, rgba(0, 0, 0, 0.05) 1px, transparent 1px, transparent 2px );
+                animation: scanlines 0.5s infinite steps(2);
+            }
+
+            /* Vignette (subtle) */
+            body::after {
+                box-shadow: inset 0px 0px 10vw 0px rgba(0,0,0,0.8);
+            }
+
+            @keyframes scanlines {
+                from {
+                    background-position: 0 0;
+                }
+
+                to {
+                    background-position: 0 100%;
+                }
+            }
+
+            /* Subtle Noise */
+            body {
+                background-image: url('data:image/svg+xml;charset=utf-8,<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch" result="noise" /><feColorMatrix in="noise" type="saturate" values="0" /><feBlend in="SourceGraphic" in2="noise" mode="overlay" opacity="0.03" /></filter><rect width="100%" height="100%" filter="url(%23n)" fill="%23000000" /></svg>');
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+            }
+
+            /* D. SIGNATURE VISUAL ELEMENTS :: THE COMMANDING PRESENCE */
+            /* Logo, Cursor */
+            #csu-cursor {
+                position: fixed;
+                pointer-events: none;
+                z-index: 10000;
+                width: 8px;
+                height: 8px;
+                background-color: var(--color-signal-blue);
+                /* Cursor color fixed to signal blue */
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                transition: width 0.15s ease-out, height 0.15s ease-out, border-radius 0.15s ease-out;
+                animation: cursor-blink 1s infinite step-end;
+            }
+
+            #csu-cursor.active {
+                width: 2px;
+                height: 20px;
+                /* Adjust height for bar */
+                border-radius: 0%;
+                animation: none;
+                /* Stop blinking when active */
+            }
+
+            @keyframes cursor-blink {
+                0%, 49% {
+                    opacity: 1;
+                }
+
+                50%, 100% {
+                    opacity: 0;
+                }
+            }
+
+            .header, .footer {
+                position: fixed;
+                left: 0;
+                width: 100%;
+                background-color: var(--color-terminal-black);
+                padding: 0 2vw;
+                display: flex;
+                align-items: center;
+                z-index: 1000;
+                border-color: rgba(245, 245, 245, 0.1);
+            }
+
+            .header {
+                top: 0;
+                height: var(--header-height);
+                justify-content: space-between;
+                border-bottom: 1px solid;
+                padding-top: env(safe-area-inset-top, 0px); /* prevent notch overlap */
+            }
+
+            .header .logo {
+                font-size: 2.5vh;
+                color: var(--color-editorial-red);
+                font-weight: 700;
+                user-select: none;
+            }
+
+            .header .status {
+                font-size: 1.8vh;
+                color: var(--color-ghost-white);
+            }
+
+            .footer {
+                bottom: 0;
+                height: var(--footer-height);
+                justify-content: space-between;
+                border-top: 1px solid;
+                flex-wrap: wrap;
+                /* Allow wrapping on smaller screens */
+                gap: 1vw;
+                padding-bottom: env(safe-area-inset-bottom, 0px); /* avoid iOS home indicator overlap */
+            }
+
+            .nav-buttons, .mode-buttons {
+                display: flex;
+                gap: 1vw;
+            }
+
+            .nav-button, .mode-button {
+                background-color: transparent;
+                border: 1px solid var(--color-ghost-white);
+                color: var(--color-ghost-white);
+                padding: 1.2vh 1.8vw;
+                font-family: var(--font-primary);
+                font-size: 1.8vh;
+                cursor: none;
+                /* Managed by custom cursor */
+                transition: all 0.1s linear;
+                text-transform: uppercase;
+                white-space: nowrap;
+                /* Prevent button text from wrapping */
+            }
+
+            .nav-button:hover, .mode-button:hover {
+                background-color: var(--color-signal-blue);
+                color: var(--color-terminal-black);
+                border-color: var(--color-signal-blue);
+            }
+
+            .nav-button:disabled {
+                opacity: 0.3;
+                cursor: not-allowed;
+                background-color: transparent;
+                color: var(--color-ghost-white);
+                border-color: var(--color-ghost-white);
+            }
+
+            .nav-button.active {
+                background-color: var(--color-editorial-red);
+                color: var(--color-terminal-black);
+                border-color: var(--color-editorial-red);
+            }
+
+            .mode-button.active {
+                background-color: var(--color-signal-blue);
+                color: var(--color-terminal-black);
+                border-color: var(--color-signal-blue);
+            }
+
+            .current-prompt {
+                flex-grow: 1;
+                /* Allows it to take available space */
+                font-size: 1.8vh;
+                color: var(--color-signal-blue);
+                text-align: right;
+                /* Aligned with the prompt idea */
+                padding-right: 1vw;
+                /* Give it some space */
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                /* For long prompts */
+                /* Animation changed to opacity only to prevent layout shifts */
+                animation: prompt-fade 5s steps(1) infinite alternate;
+            }
+
+            @keyframes prompt-fade {
+                0% {
+                    opacity: 0.5;
+                }
+
+                50% {
+                    opacity: 1;
+                }
+
+                100% {
+                    opacity: 0.5;
+                }
+            }
+
+            /* IV. LAYOUT & COMPOSITION :: THE REHEARSAL STAGE */
+            /* A. GENERAL LAYOUT PRINCIPLES: Minimalism, Density of Concept, Responsive */
+            /* B. PRESENTATION-SPECIFIC (PITCH DECKS): Slide Structure, Content Density, Navigation, Header/Footer */
+            .presentation-container {
+                position: relative;
+                /* compute and reuse stage height */
+                --stage-h: calc(100vh - var(--header-height) - var(--footer-height) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+                height: var(--stage-h);
+                margin-top: var(--header-height);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 2vw;
+                overflow: clip;
+                /* To handle slide transitions without masking internal slide scroll */
+            }
+
+            .slides-wrapper {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                overflow: clip; /* For slide transitions; slides manage their own scroll */
+            }
+
+            .slide {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start; /* don't center vertically to avoid clipping */
+                align-items: flex-start; /* Aligns content to left */
+                padding: 4vh 5vw; /* use vh so vertical math stays consistent */
+                gap: 2vh; /* breathing room between blocks */
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease-in-out; /* V. INTERACTION & ANIMATION :: Transitions */
+                transform: translateX(0); /* For potential future slide-in transitions */
+                text-align: left;
+                background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay for text readability */
+                overflow-y: auto; /* allow safe internal scroll when content exceeds stage */
+            }
+
+            .slide.active {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            /* Remove accidental extra top spacing caused by first-child margins */
+            .slide > :first-child { margin-top: 0; }
+
+            .slide h2 {
+                font-size: clamp(3vh, 5vw, 6vh);
+                margin-bottom: 3vh;
+                line-height: 1.2;
+                color: var(--color-ghost-white);
+                text-transform: uppercase;
+                /* Headers are always uppercase */
+                letter-spacing: 0.05em;
+                /* Explicit letter spacing for headers */
+            }
+
+            /* Desktop spacing: pull content tighter under the header/footer to avoid wasted vertical space */
+            @media (min-width: 1200px) {
+                .presentation-container { padding: 0 2vw; }
+                .slide { padding: 0.5vh 4.5vw; gap: 0.6vh; }
+            }
+
+            .slide p, .slide ul {
+                font-size: clamp(1.8vh, 2vw, 2.5vh);
+                max-width: 80vw;
+                line-height: 1.5;
+                margin-bottom: 2vh;
+                color: var(--color-ghost-white);
+                text-transform: none;
+                /* Allow natural casing from HTML for body text */
+                letter-spacing: 0.02em;
+                /* Subtle letter spacing for readability of body text */
+            }
+
+            .slide ul {
+                list-style: none;
+                padding-left: 0;
+            }
+
+            .slide ul li::before {
+                content: '> ';
+                /* Command-line prompt style */
+                color: var(--color-editorial-red);
+            }
+
+            .slide img {
+                max-width: 60%;
+                max-height: 40vh;
+                object-fit: contain;
+                border: 1px solid var(--color-ghost-white);
+                margin-top: 3vh;
+                image-rendering: pixelated;
+                /* To enforce digital look */
+                filter: grayscale(10%) contrast(1.1);
+                /* Subtle digital effect */
+                transition: border-color 0.2s linear;
+            }
+
+            .slide img.corrupt {
+                animation: image-glitch 1s infinite alternate;
+            }
+
+            @keyframes image-glitch {
+                0% {
+                    clip-path: inset(0 0 0 0);
+                    transform: translate(0, 0);
+                }
+
+                20% {
+                    clip-path: inset(0 0 0 0);
+                    transform: translate(0, 0);
+                }
+
+                21% {
+                    clip-path: inset(20% 0 10% 0);
+                    transform: translate(2px, -2px);
+                }
+
+                25% {
+                    clip-path: inset(0 0 0 0);
+                    transform: translate(0, 0);
+                }
+
+                30% {
+                    clip-path: inset(0 0 0 0);
+                    transform: translate(0, 0);
+                }
+
+                31% {
+                    clip-path: inset(5% 0 5% 0);
+                    transform: translate(-1px, 1px);
+                }
+
+                35% {
+                    clip-path: inset(0 0 0 0);
+                    transform: translate(0, 0);
+                }
+
+                60% {
+                    filter: grayscale(10%) contrast(1.1);
+                }
+
+                61% {
+                    filter: grayscale(80%) contrast(1.5) blur(1px);
+                }
+
+                63% {
+                    filter: grayscale(10%) contrast(1.1);
+                }
+            }
+
+            /* VI. CONTENT CREATION :: THE COMPILED NARRATIVE */
+            /* Imagery: Never photos. Always screenshots. AI composites. 3D stills. Procedural renders. Let errors show. */
+            .image-caption {
+                font-size: 1.6vh;
+                margin-top: 1vh;
+                color: var(--color-ghost-white);
+                text-transform: lowercase;
+                /* Captions are lowercase */
+                max-width: 60%;
+                letter-spacing: 0.01em;
+            }
+
+            /* Full Report / Long Form Content */
+            .full-report-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                padding: calc(var(--header-height) + 2vh) 5vw calc(var(--footer-height) + 2vh) 5vw;
+                /* Adjusted padding to clear header/footer */
+                overflow-y: auto;
+                /* Scrollable main content area */
+                background-color: rgba(245, 245, 245, 0.95);
+                /* Lighter background for readability */
+                color: var(--color-terminal-black);
+                /* Dark text on light background */
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease-in-out;
+                transform: translateX(0);
+                z-index: 900;
+                /* Below header/footer */
+            }
+
+            .full-report-container.active {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .full-report-container h1 {
+                /* Main report title */
+                font-size: 5vh;
+                margin-top: 2vh;
+                margin-bottom: 3vh;
+                text-transform: uppercase;
+                color: var(--color-editorial-red);
+                letter-spacing: 0.05em;
+            }
+
+            .full-report-container h2 {
+                font-size: 4vh;
+                margin-top: 4vh;
+                margin-bottom: 2vh;
+                text-transform: uppercase;
+                color: var(--color-editorial-red);
+                letter-spacing: 0.05em;
+            }
+
+            .full-report-container h3 {
+                font-size: 3vh;
+                margin-top: 3vh;
+                margin-bottom: 1.5vh;
+                text-transform: uppercase;
+                color: var(--color-signal-blue);
+                letter-spacing: 0.04em;
+            }
+
+            .full-report-container h4 {
+                font-size: 2.5vh;
+                margin-top: 2.5vh;
+                margin-bottom: 1vh;
+                text-transform: uppercase;
+                color: var(--color-terminal-black);
+                /* Dark text on light background */
+                letter-spacing: 0.03em;
+            }
+
+            .full-report-container p, .full-report-container ul, .full-report-container ol {
+                font-size: 2vh;
+                line-height: 1.7;
+                margin-bottom: 1.5vh;
+                text-transform: none;
+                /* Allow natural casing from HTML for body text */
+                letter-spacing: 0.02em;
+            }
+
+            .full-report-container ul, .full-report-container ol {
+                padding-left: 3vw;
+            }
+
+            .full-report-container ul li::before {
+                content: '▫ ';
+                /* Different bullet for report */
+                color: var(--color-editorial-red);
+                /* Changed for contrast on light background */
+            }
+
+            .full-report-container strong {
+                color: var(--color-signal-blue);
+            }
+
+            .full-report-container img {
+                max-width: 80%;
+                height: auto;
+                display: block;
+                margin: 2vh auto;
+                border: 1px solid var(--color-terminal-black);
+                /* Darker border for contrast */
+                image-rendering: pixelated;
+            }
+
+            .full-report-container .image-caption {
+                font-size: 1.8vh;
+                text-align: center;
+                max-width: 80%;
+                margin: 1vh auto 3vh auto;
+                text-transform: lowercase;
+                letter-spacing: 0.01em;
+                color: var(--color-terminal-black);
+                /* Dark caption text */
+            }
+
+            /* Citation styling */
+            .citation-ref {
+                font-size: 0.7em;
+                /* Smaller for superscript */
+                vertical-align: super;
+                color: var(--color-signal-blue);
+                cursor: pointer;
+                /* Indicate interactivity */
+                text-decoration: none;
+                /* Remove underline */
+            }
+
+            .citation-ref:hover {
+                color: var(--color-editorial-red);
+            }
+
+            .sources-section h2 {
+                margin-top: 5vh;
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+                /* Darker border for light background */
+                padding-top: 3vh;
+            }
+
+            .sources-section ol {
+                padding-left: 2vw;
+            }
+
+            .sources-section li {
+                margin-bottom: 1vh;
+                font-size: 1.8vh;
+                line-height: 1.5;
+                letter-spacing: 0.01em;
+                color: var(--color-terminal-black);
+                /* Dark text */
+            }
+
+            .sources-section li a {
+                color: var(--color-signal-blue);
+                text-decoration: underline;
+            }
+
+            .sources-section li a:hover {
+                color: var(--color-editorial-red);
+            }
+
+            /* Text Glitch Effect */
+            .glitch-text {
+                position: relative;
+                display: inline-block;
+                cursor: none;
+                /* Ensure text-transform is NOT applied by this class to allow natural casing */
+                text-transform: none;
+            }
+
+            .glitch-text::before, .glitch-text::after {
+                content: attr(data-original-text);
+                /* Use a new attribute to store original text for glitch */
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: var(--color-terminal-black);
+                /* Glitch background */
+                color: var(--color-editorial-red);
+                /* Glitch foreground color 1 */
+                overflow: hidden;
+                clip-path: inset(0 0 0 0);
+                opacity: 0;
+                pointer-events: none;
+                z-index: 10;
+            }
+
+            .glitch-text::after {
+                color: var(--color-signal-blue);
+                /* Glitch foreground color 2 */
+                left: 2px;
+                top: 2px;
+            }
+
+            .glitch-text:hover::before {
+                opacity: 1;
+                animation: glitch-before 0.7s infinite alternate-reverse;
+            }
+
+            .glitch-text:hover::after {
+                opacity: 1;
+                animation: glitch-after 0.7s infinite alternate-reverse;
+            }
+
+            @keyframes glitch-before {
+                0% {
+                    clip-path: inset(90% 0 0 0);
+                    transform: translateX(1px);
+                }
+
+                20% {
+                    clip-path: inset(20% 0 70% 0);
+                    transform: translateX(-1px);
+                }
+
+                40% {
+                    clip-path: inset(70% 0 20% 0);
+                    transform: translateX(1px);
+                }
+
+                60% {
+                    clip-path: inset(40% 0 50% 0);
+                    transform: translateX(-1px);
+                }
+
+                80% {
+                    clip-path: inset(10% 0 80% 0);
+                    transform: translateX(1px);
+                }
+
+                100% {
+                    clip-path: inset(0 0 90% 0);
+                    transform: translateX(0);
+                }
+            }
+
+            @keyframes glitch-after {
+                0% {
+                    clip-path: inset(20% 0 70% 0);
+                    transform: translateX(-2px);
+                }
+
+                20% {
+                    clip-path: inset(90% 0 0 0);
+                    transform: translateX(2px);
+                }
+
+                40% {
+                    clip-path: inset(40% 0 50% 0);
+                    transform: translateX(-2px);
+                }
+
+                60% {
+                    clip-path: inset(10% 0 80% 0);
+                    transform: translateX(2px);
+                }
+
+                80% {
+                    clip-path: inset(70% 0 20% 0);
+                    transform: translateX(-2px);
+                }
+
+                100% {
+                    clip-path: inset(0 0 20% 0);
+                    transform: translateX(0);
+                }
+            }
+
+            /* VII. DEVIANCE MODE :: BREAKING THE FRAME */
+            /* Intentional Disruption */
+            .glitch-screen {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: var(--color-terminal-black);
+                z-index: 10001;
+                opacity: 0;
+                pointer-events: none;
+                animation: none;
+                /* Controlled by JS */
+            }
+
+            @keyframes full-glitch {
+                0% {
+                    opacity: 0;
+                    filter: hue-rotate(0deg);
+                    transform: scale(1);
+                }
+
+                10% {
+                    opacity: 1;
+                    filter: hue-rotate(90deg);
+                    transform: scale(1.02);
+                }
+
+                20% {
+                    opacity: 0.8;
+                    filter: hue-rotate(180deg);
+                    transform: scale(0.98);
+                }
+
+                30% {
+                    opacity: 1;
+                    filter: hue-rotate(270deg);
+                    transform: scale(1.01);
+                }
+
+                40% {
+                    opacity: 0.9;
+                    filter: hue-rotate(0deg);
+                    transform: scale(0.99);
+                }
+
+                50% {
+                    opacity: 1;
+                    filter: hue-rotate(45deg);
+                    transform: scale(1.01);
+                }
+
+                60% {
+                    opacity: 0.8;
+                    filter: hue-rotate(135deg);
+                    transform: scale(0.99);
+                }
+
+                70% {
+                    opacity: 1;
+                    filter: hue-rotate(225deg);
+                    transform: scale(1.02);
+                }
+
+                80% {
+                    opacity: 0.9;
+                    filter: hue-rotate(315deg);
+                    transform: scale(0.98);
+                }
+
+                90% {
+                    opacity: 1;
+                    filter: hue-rotate(0deg);
+                    transform: scale(1);
+                }
+
+                100% {
+                    opacity: 0;
+                    filter: hue-rotate(0deg);
+                    transform: scale(1);
+                }
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .header {
+                    flex-direction: column;
+                    justify-content: center;
+                    gap: 1vh;
+                    height: var(--header-height);
+                    /* Maintain a fixed height, content will stack */
+                    padding: 0 1vw;
+                    /* More compact on mobile */
+                }
+
+                .header .logo {
+                    font-size: 2vh;
+                }
+
+                .header .status {
+                    font-size: 1.5vh;
+                }
+
+                .footer {
+                    flex-direction: column;
+                    justify-content: center;
+                    height: auto; /* Allow footer to grow if contents wrap */
+                    min-height: var(--footer-height);
+                    padding: 1vh 1vw;
+                    row-gap: 0.8rem; /* Space between rows */
+                }
+
+                .nav-buttons, .mode-buttons {
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    gap: 0.5vw;
+                    width: 100%;
+                }
+
+                .nav-button, .mode-button {
+                    padding: 1vh 1.5vw;
+                    font-size: 1.5vh;
+                    min-width: 44px; /* Comfortable touch target */
+                    min-height: 44px; /* Comfortable touch target */
+                }
+
+                .current-prompt {
+                    display: none; /* Hide prompt text on mobile to prioritize controls */
+                }
+
+                .slide {
+                    padding: 5vw 3vw;
+                    align-items: center;
+                    text-align: center;
+                }
+
+                .slide p, .slide ul {
+                    max-width: 95vw;
+                    /* Wider text on smaller screens */
+                    font-size: 1.8vh;
+                }
+
+                .slide img, .full-report-container img {
+                    max-width: 90%;
+                }
+
+                .image-caption {
+                    max-width: 90%;
+                    text-align: center;
+                }
+
+                .full-report-container {
+                    padding: calc(var(--header-height) + 2vh) 5vw calc(var(--footer-height) + 2vh) 5vw;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="csu-cursor"></div>
+        <div class="glitch-screen" id="glitch-screen"></div>
+        <header class="header">
+            <div class="logo">>_</div>
+            <div class="status">AI NARRATIVE AUDIT // LIVE RENDER</div>
+        </header>
+        <div class="presentation-container" id="presentation-container">
+            <div class="slides-wrapper" id="slides-wrapper">
+                <!-- Slide 0: Title Slide - Headers uppercase, key emphasis lines uppercase as per protocol -->
+                <div class="slide" id="slide-0" data-slide-id="intro">
+                    <h2>
+                        AI-GENERATED SHORT FILMS <br>
+                         & COMPUTATIONAL NARRATIVES <br>
+                        IN THE POST-<strong class="signal-highlight">HER</strong>
+                        ERA
+                    </h2>
+                    <p>CSU IS NOT A SCHOOL FOR FILM—IT IS A MACHINE FOR WHAT COMES AFTER.</p>
+                    <p>PROMPT IT. AUDIT IT. RENDER IT. WATCH WHAT EMERGES.</p>
+                    <p>THIS ISN’T PRODUCTION DESIGN. IT’S PROMPT SPACE.</p>
+                </div>
+                <!-- Slide 1: CORE CONCEPT - AI AS CREATOR -->
+                <div class="slide" id="slide-1" data-slide-id="early-protocols">
+                    <h2>
+                        AI AS <strong class="signal-highlight">CREATOR</strong>
+                        // EARLY PROTOCOLS
+                    </h2>
+                    <p>
+                        First: <strong class="signal-highlight" data-original-text="Sunspring (2016)">Sunspring (2016)</strong>
+                        . AI-generated script. Glorious sci-fi chaos. Performed syntax.
+                    </p>
+                    <p>
+                        Next: <strong class="signal-highlight" data-original-text="It's No Game (2017)">It's No Game (2017)</strong>
+                        . AI-written dialogue. Followed by <strong class="signal-highlight" data-original-text="Zone Out (2018)">Zone Out (2018)</strong>
+                        . AI credited as director. Visuals: glitchy, uncanny. Machine vision compiling reality.
+                    </p>
+                </div>
+                <!-- Slide 2: AI DIRECTIVE - SCRIPT TO SHOT -->
+                <div class="slide" id="slide-2" data-slide-id="script-to-shot">
+                    <h2>AI DIRECTIVE // SCRIPT TO SHOT</h2>
+                    <p>
+                        2022: <strong class="signal-highlight" data-original-text="The Safe Zone">The Safe Zone</strong>
+                        . First short film written and directed by AI.
+                    </p>
+                    <ul>
+                        <li>> Scripted by ChatGPT.</li>
+                        <li>> Shot list. Camera angles. Lighting. Wardrobe. All AI-generated.</li>
+                        <li>> Storyboards: DALL-E 2.</li>
+                    </ul>
+                    <p>Human actors followed AI commands. Clunky. But a milestone. Computational agency.</p>
+                </div>
+                <!-- Slide 3: GENERATIVE VISION - VISUALS COMPILED -->
+                <div class="slide" id="slide-3" data-slide-id="generative-vision">
+                    <h2>GENERATIVE VISION // VISUALS COMPILED</h2>
+                    <p>
+                        2023: <strong class="signal-highlight" data-original-text="The Frost">The Frost</strong>
+                        . Fully generative AI film. Human script. Every visual: AI-created.
+                    </p>
+                    <ul>
+                        <li>> DALL-E 2 generated each shot.</li>
+                        <li>> D-ID animated faces. Voice actors.</li>
+                        <li>> Unlimited effects budget. Fantastic realities.</li>
+                    </ul>
+                    <p>Challenges: continuity. Coherence. AI is powerful. Often erratic. Performs syntax. Trace visible.</p>
+                </div>
+                <!-- Slide 4: PATTERN RECOGNITION - TROPE REMIX -->
+                <div class="slide" id="slide-4" data-slide-id="trope-remix">
+                    <h2>PATTERN RECOGNITION // TROPE REMIX</h2>
+                    <p>
+                        2023: <strong class="signal-highlight" data-original-text="Last Stand">Last Stand</strong>
+                        . Sci-fi short. Developed with Brightpen AI.
+                    </p>
+                    <ul>
+                        <li>> Visuals: image generators. Compositing.</li>
+                        <li>> Clichéd motifs. Pop-culture references.</li>
+                    </ul>
+                    <p>
+                        AI-generated shorts often <strong class="signal-highlight" data-original-text="remix familiar tropes">remix familiar tropes</strong>
+                        . Shows creativity. Highlights current limitations. Audit required.
+                    </p>
+                    <img src="https://entertainment.inquirer.net/files/2022/12/Screen-Shot-2022-12-18-at-7.06.52-PM.png" alt="Still from The Safe Zone (2022)" class="corrupt">
+                    <p class="image-caption">
+                        Stills from <strong class="signal-highlight">The Safe Zone</strong>
+                        (2022). Human actors bring to life an AI-written script about an an AI apocalypse. Camera directions and storyboard provided by ChatGPT.
+                    </p>
+                </div>
+                <!-- Slide 5: THE STAGES OF RENDERING - AI NARRATIVE MECHANISMS -->
+                <div class="slide" id="slide-5" data-slide-id="narrative-mechanisms">
+                    <h2>THE STAGES OF RENDERING // AI NARRATIVE MECHANISMS</h2>
+                    <ul>
+                        <li>
+                            > <strong class="signal-highlight" data-original-text="Script Generation">Script Generation</strong>
+                            : RNNs → GPT-4. Fast drafting. Lacks deep character. Human refine.
+                        </li>
+                        <li>
+                            > <strong class="signal-highlight" data-original-text="Visual Generation">Visual Generation</strong>
+                            : DALL-E 2, Stable Diffusion, Midjourney. Concept art, storyboards, final frames. Narrative continuity suffers.
+                        </li>
+                        <li>
+                            > <strong class="signal-highlight" data-original-text="Performance Synthesis">Performance Synthesis</strong>
+                            : AI-generated characters. Synthetic performances. Fable Studio's Lucy (GPT-3, voice model, animation model).
+                        </li>
+                        <li>
+                            > <strong class="signal-highlight" data-original-text="Narrative Coherence & Editing">Narrative Coherence & Editing</strong>
+                            : AI tends to produce fragmented narratives. Human curation is crucial.
+                        </li>
+                    </ul>
+                </div>
+                <!-- Slide 6: PROMPT ENGINEERS - PIONEERING ENTITIES -->
+                <div class="slide" id="slide-6" data-slide-id="pioneering-entities">
+                    <h2>PROMPT ENGINEERS // PIONEERING ENTITIES</h2>
+                    <p>Artists. Researchers. Studios. At the intersection. Technology. Storytelling.</p>
+                    <ul>
+                        <li>
+                            > <strong class="signal-highlight" data-original-text="Ross Goodwin & Oscar Sharp">Ross Goodwin & Oscar Sharp</strong>
+                            : Sunspring. Benjamin AI. Foundational.
+                        </li>
+                        <li>
+                            > <strong class="signal-highlight" data-original-text="Fable Studio">Fable Studio</strong>
+                            (Edward Saatchi): Virtual beings. Lucy. Interactive narrative.
+                        </li>
+                        <li>
+                            > <strong class="signal-highlight" data-original-text="Waymark">Waymark</strong>
+                            (Josh Rubin): The Frost. Generative AI production.
+                        </li>
+                        <li>
+                            > <strong class="signal-highlight" data-original-text="28 Squared Studios">28 Squared Studios</strong>
+                            (Richard Juan): The Safe Zone. AI-written/directed.
+                        </li>
+                        <li>
+                            > <strong class="signal-highlight" data-original-text="Academic & Indie Innovators">Academic & Indie Innovators</strong>
+                            : Sougwen Chung, Lars Jan, Mark Riedl (Georgia Tech). AI Film Festival.
+                        </li>
+                    </ul>
+                </div>
+                <!-- Slide 7: PROTOCOL REVISION - AUTHORSHIP & AURA -->
+                <div class="slide" id="slide-7" data-slide-id="authorship-aura">
+                    <h2>PROTOCOL REVISION // AUTHORSHIP & AURA</h2>
+                    <p>
+                        AI-created media prompts <strong class="signal-highlight" data-original-text="critical inquiry">critical inquiry</strong>
+                        .
+                    </p>
+                    <ul>
+                        <li>
+                            > Human vs. machine authorship: who is the <strong class="signal-highlight" data-original-text="orderer">orderer</strong>
+                            ? (Låvenberg)<sup class="citation-ref" id="ref-8">8</sup>
+                            . Collaborative.
+                        </li>
+                        <li>
+                            > Narrative theory: can AI understand <strong class="signal-highlight" data-original-text="narrative logic">narrative logic</strong>
+                            ? Are AI's hallucinations new art?
+                        </li>
+                        <li>
+                            > Media theory: Walter Benjamin's <strong class="signal-highlight" data-original-text="aura">aura</strong>
+                            . Diminished? Shifted? Posthumanist view.
+                        </li>
+                        <li>> Ethical implications: democratizing filmmaking. Automating creative labor. AI as metatextual commentary.</li>
+                    </ul>
+                </div>
+                <!-- Slide 8: HER :: PRESCIENT PROTOCOL -->
+                <div class="slide" id="slide-8" data-slide-id="her-prescience">
+                    <h2>
+                        <strong class="signal-highlight">HER</strong>
+                        :: PRESCIENT PROTOCOL
+                    </h2>
+                    <p>
+                        Spike Jonze's <strong class="signal-highlight" data-original-text="Her">Her</strong>
+                        (2013) is cited. Constantly.
+                    </p>
+                    <ul>
+                        <li>> AI companions: ChatGPT voice feature. Uncanny resemblance to Samantha. Apps like Replika.</li>
+                        <li>> Reflection on technology's role: less about tech. More about human loneliness.</li>
+                        <li>> Influence on creators: a benchmark for emotional AI characterization. "Her-like feeling."</li>
+                        <li>> Critical readings: post-cinema. Gender dynamics. Cautionary tale.</li>
+                    </ul>
+                    <img src="https://m.media-amazon.com/images/M/MV5BMTQyNzIwNjkyOF5BMl5BanBnXkFtZTgwMTAxNjM3MDE%40._V1_.jpg" alt="Still from Her (2013)" style="filter: grayscale(80%) contrast(1.2);">
+                    <p class="image-caption">
+                        The fiction of <strong class="signal-highlight">Her</strong>
+                        is fast becoming reality. Prompting hope. Introspection.
+                    </p>
+                </div>
+                <!-- Slide 9: FINAL PROTOCOL :: THE CORE STATEMENT - All lines are "key emphasis" so they remain uppercase as per protocol -->
+                <div class="slide" id="slide-9" data-slide-id="final-protocol">
+                    <h2>FINAL PROTOCOL // CORE STATEMENT</h2>
+                    <p>
+                        FILM IS NO LONGER MADE. IT IS <strong class="signal-highlight">COMPUTED</strong>
+                        .
+                    </p>
+                    <p>CSU IS NOT A SCHOOL FOR FILM—IT IS A MACHINE FOR WHAT COMES AFTER.</p>
+                    <p>PROMPT IT. AUDIT IT. RENDER IT. WATCH WHAT EMERGES.</p>
+                    <p>YOU ARE NOT FILMING. YOU ARE RENDERING. START OVER.</p>
+                    <p>THIS ISN’T PRODUCTION DESIGN. IT’S PROMPT SPACE.</p>
+                    <p>LET THE WORLD KNOW THAT CSU PERFORMS SYNTAX.</p>
+                </div>
+            </div>
+            <div class="full-report-container" id="full-report-container">
+                <h1>
+                    AI-GENERATED SHORT FILMS AND COMPUTATIONAL NARRATIVES IN THE POST-<strong class="signal-highlight">HER</strong>
+                    ERA
+                </h1>
+                <h2>INTRODUCTION</h2>
+                <p>
+                    Spike Jonze’s film <strong class="signal-highlight">Her</strong>
+                    (2013) imagined a near future where a human falls in love with an AI operating system, raising profound questions about technology, emotion, and connection. A decade later, we are witnessing an emergence of <strong class="signal-highlight">AI-generated short films</strong>
+                    and experimental computational narratives that echo and expand upon Her’s themes. These projects not only portray AI in stories but also <strong class="signal-highlight">use AI as a creator</strong>
+                    , blurring the line between human and machine authorship. Below, we explore notable examples of AI-generated films, the innovative narrative techniques behind them, the pioneers in this space, critical theory contextualizing these works, and how Her is referenced in today’s discourse on AI, cinema, and emotion.
+                </p>
+                <h2>NOTABLE AI-GENERATED SHORT FILMS</h2>
+                <p>
+                    Several experimental films in recent years have been <strong class="signal-highlight">written or created by AI systems</strong>
+                    , pushing the boundaries of storytelling:
+                </p>
+                <ul>
+                    <li>
+                        <strong class="signal-highlight">Sunspring (2016):</strong>
+                        Often cited as the first film <strong class="signal-highlight">scripted entirely by AI</strong>
+                        , <strong class="signal-highlight">Sunspring</strong>
+                        is a 9-minute sci-fi short directed by Oscar Sharp. The screenplay was generated by a neural network (an LSTM RNN nicknamed “Benjamin”) fed with dozens of 1980s-90s sci-fi scripts <sup class="citation-ref" id="ref-1">1</sup>
+                        . The result is a bizarre, dreamlike story about three people in a futuristic love triangle <sup class="citation-ref" id="ref-2">2</sup>
+                        . While largely nonsensical, <strong class="signal-highlight">Sunspring</strong>
+                        became a cult example of AI creativity – “glorious sci-fi chaos,” as one review put it <sup class="citation-ref" id="ref-3">3</sup>
+                        . (The film, starring actors who earnestly perform the AI’s strange dialog, can be viewed online.)
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">It’s No Game (2017) and Zone Out (2018):</strong>
+                        Following <strong class="signal-highlight">Sunspring</strong>
+                        ’s debut, the team (Sharp and technologist Ross Goodwin) continued experimenting with Benjamin. <strong class="signal-highlight">It’s No Game</strong>
+                        featured AI-written dialogue for actor David Hasselhoff, and <strong class="signal-highlight">Zone Out</strong>
+                        went further – Benjamin was credited as the <strong class="signal-highlight">director</strong>
+                        . In <strong class="signal-highlight">Zone Out</strong>
+                        , the AI assembled footage of actors against green-screen with thousands of hours of old film footage to create a surreal short film in 48 hours <sup class="citation-ref" id="ref-1">1</sup>
+                        , <sup class="citation-ref" id="ref-5">5</sup>
+                        . The visuals are glitchy and uncanny (faces flicker and merge), but it demonstrated the potential for AI to handle not just writing but also <strong class="signal-highlight">video generation and editing</strong>
+                        .
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">The Safe Zone (2022):</strong>
+                        Fast forward to the age of advanced transformers – <strong class="signal-highlight">The Safe Zone</strong>
+                        is billed as the first short film <strong class="signal-highlight">written and directed by an AI</strong>
+                        . Created by 28 Squared Studios, this 5-minute sci-fi drama about siblings deciding who can survive an AI apocalypse was scripted by OpenAI’s ChatGPT <sup class="citation-ref" id="ref-4">4</sup>
+                        , <sup class="citation-ref" id="ref-4">4</sup>
+                        . Remarkably, ChatGPT didn’t just write the dialogue – it produced a full <strong class="signal-highlight">shot list with camera angles, lighting and wardrobe instructions</strong>
+                        for each scene <sup class="citation-ref" id="ref-4">4</sup>
+                        . The filmmakers even used ChatGPT’s output to generate storyboards via DALL-E 2 (text-to-image AI) <sup class="citation-ref" id="ref-4">4</sup>
+                        . Human actors then followed the AI’s direction on set. The resulting film is still a bit clunky in plot and performance (the characters lean on simplistic tropes and melodrama <sup class="citation-ref" id="ref-5">5</sup>
+                        ), but it marks a milestone in AI-assisted filmmaking, achieved just weeks after ChatGPT's public launch in 2022.
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">The Frost (2023):</strong>
+                        Produced by Detroit-based studio Waymark, <strong class="signal-highlight">The Frost</strong>
+                        is one of the world’s first <strong class="signal-highlight">fully generative AI films</strong>
+                        . Here the script was written by a human (a Waymark producer), but <strong class="signal-highlight">every visual</strong>
+                        was created by AI <sup class="citation-ref" id="ref-6">6</sup>
+                        . The team fed the screenplay into OpenAI’s image generator DALL-E 2, which generated each shot of this 24-minute post-apocalyptic story <sup class="citation-ref" id="ref-6">6</sup>
+                        . To overcome the static nature of AI images, they employed another AI tool (D-ID) to animate the characters’ faces (blinking eyes, moving lips) and used voice actors for dialogue <sup class="citation-ref" id="ref-6">6</sup>
+                        . <strong class="signal-highlight">The Frost</strong>
+                        ’s imagery is surreal and painterly, illustrating how AI can bring human-written narratives to life “in new and abstract ways” <sup class="citation-ref" id="ref-7">7</sup>
+                        . Recognized by MIT Technology Review as an innovation in AI filmmaking, this project highlights both the potential and challenges of AI-driven cinema – the <em>unlimited</em>
+                        supply of AI-generated visuals coupled with struggles in maintaining continuity and coherence <sup class="citation-ref" id="ref-8">8</sup>
+                        , <sup class="citation-ref" id="ref-8">8</sup>
+                        .
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">Last Stand (2023):</strong>
+                        Another noteworthy experiment, <strong class="signal-highlight">Last Stand</strong>
+                        is a sci-fi short by filmmaker Hashem Al-Ghaili that was promoted as “made with AI.” Its simple plot (aliens invade Earth, sparking a space race) was developed with the Brightpen AI writing tool, and visuals were created through image generators and compositing <sup class="citation-ref" id="ref-5">5</sup>
+                        . Like <strong class="signal-highlight">The Safe Zone</strong>
+                        , <strong class="signal-highlight">Last Stand</strong>
+                        exhibits many clichéd motifs and pop-culture references (even featuring a satirical cameo of public figures) <sup class="citation-ref" id="ref-5">5</sup>
+                        . These AI-generated shorts often feel like <strong class="signal-highlight">remixes of familiar tropes</strong>
+                        , underscoring both the creativity and the limitations of current AI storytelling.
+                    </li>
+                </ul>
+                <p>
+                    <strong>Embedded Artifact:</strong>
+                    Below is a glimpse of <strong class="signal-highlight">The Safe Zone</strong>
+                    (2022), where human actors bring to life an AI-written script about an AI apocalypse. All camera directions and even the storyboard were provided by ChatGPT <sup class="citation-ref" id="ref-4">4</sup>
+                    :
+                </p>
+                <img src="https://entertainment.inquirer.net/files/2022/12/Screen-Shot-2022-12-18-at-7.06.52-PM.png" alt="Stills from The Safe Zone (2022)">
+                <p class="image-caption">
+                    Stills from <strong class="signal-highlight">The Safe Zone</strong>
+                    (2022), a short film scripted and “directed” by ChatGPT <sup class="citation-ref" id="ref-4">4</sup>
+                    .
+                </p>
+                <h2>HOW AI FORMS NARRATIVE STRUCTURE (SCRIPTS, VISUALS, AND PERFORMANCE)</h2>
+                <p>AI-generated film projects employ a variety of computational techniques at different stages of the filmmaking process:</p>
+                <ul>
+                    <li>
+                        <strong class="signal-highlight">AI Script Generation:</strong>
+                        Early projects like <strong class="signal-highlight">Sunspring</strong>
+                        used <strong class="signal-highlight">recurrent neural networks</strong>
+                        (trained on movie scripts) to generate screenplay text. The Sunspring AI (later dubbed “Benjamin”) produced intriguingly incoherent dialogue and stage directions, which the filmmakers embraced as avant-garde absurdism <sup class="citation-ref" id="ref-3">3</sup>
+                        . Today’s models (like GPT-3 and GPT-4) are far more advanced. For <strong class="signal-highlight">The Safe Zone</strong>
+                        , OpenAI’s ChatGPT was given prompts to develop the screenplay – yielding a logical, if formulaic, 5-minute script in a matter of seconds <sup class="citation-ref" id="ref-4">4</sup>
+                        . AI can now rapidly draft scenes and even entire screenplays based on prompts or genre-trained data. However, these scripts often <strong class="signal-highlight">lack deep character development or truly original plots</strong>
+                        . They tend to mash up existing tropes and dialogues learned from their training data <sup class="citation-ref" id="ref-5">5</sup>
+                        . Human creators usually must refine the AI’s output to improve coherence and emotional nuance. In fact, many AI films remain <strong class="signal-highlight">collaborations</strong>
+                        , where a person curates or edits the AI-written script (for example, <strong class="signal-highlight">The Frost</strong>
+                        ’s script was still written by a human, even as the visuals were AI-generated <sup class="citation-ref" id="ref-6">6</sup>
+                        ).
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">Visual Generation and Storyboarding:</strong>
+                        Recent projects have leveraged generative AI to create imagery for films. Text-to-image models like <strong class="signal-highlight">DALL-E 2, Stable Diffusion, and Midjourney</strong>
+                        can turn script descriptions into concept art, storyboards, or even final frames. <strong class="signal-highlight">The Safe Zone</strong>
+                        team, for instance, prompted DALL-E 2 to visualize every shot as part of pre-production <sup class="citation-ref" id="ref-4">4</sup>
+                        . <strong class="signal-highlight">The Frost</strong>
+                        took this further by using AI-generated images as the actual footage of the film <sup class="citation-ref" id="ref-6">6</sup>
+                        . Every scene was an AI-created still image, animated slightly to simulate movement. This approach effectively removes the physical set and camerawork from production – the “camera” is the AI’s vision. The upside is a limitless effects budget and fantastical visuals; the downside is that narrative continuity can suffer. <strong class="signal-highlight">The Frost</strong>
+                        ’s creators noted the difficulty of getting DALL-E to produce consistent character appearances and acceptable content frame to frame <sup class="citation-ref" id="ref-8">8</sup>
+                        , <sup class="citation-ref" id="ref-8">8</sup>
+                        . Visual AI is powerful but often erratic: the output might change details unintentionally (e.g. characters’ looks shifting between shots). Filmmakers must guide the AI with iterative prompting and sometimes manual fixes to maintain story clarity. Despite these challenges, AI visual generation opens up new aesthetic frontiers – from <strong class="signal-highlight">Zone Out</strong>
+                        ’s hallucinatory composite scenes <sup class="citation-ref" id="ref-9">9</sup>
+                        to the animated, painting-like style of <strong class="signal-highlight">The Frost</strong>
+                        <sup class="citation-ref" id="ref-6">6</sup>
+                        .
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">Performance Synthesis:</strong>
+                        An emerging aspect of computational narrative is using AI for <strong class="signal-highlight">acting and voice</strong>
+                        . Rather than live actors, some projects use AI-generated characters or synthetic performances. Fable Studios, for example, has pioneered “virtual beings” like <strong class="signal-highlight">Lucy</strong>
+                        , an AI-driven character originally from the VR story <strong class="signal-highlight">Wolves in the Walls</strong>
+                        . In a tech demo scene, Fable combined multiple AI models so that Lucy’s <strong class="signal-highlight">dialogue, voice, and facial animations were all generated by AI</strong>
+                        in real-time <sup class="citation-ref" id="ref-10">10</sup>
+                        , <sup class="citation-ref" id="ref-10">10</sup>
+                        . They used GPT-3 to generate Lucy’s lines in response to a human conversation, a custom voice model trained on the actress’s voice to speak those lines, and an animation model to lip-sync and animate Lucy’s face accordingly <sup class="citation-ref" id="ref-10">10</sup>
+                        . This illustrates a future where <strong class="signal-highlight">AI characters can perform on screen</strong>
+                        , driven by language and vision models (with human guidance). Similarly, the creators of <strong class="signal-highlight">The Frost</strong>
+                        relied on an AI tool (D-ID) to breathe life into static AI images – giving characters basic facial movements so they didn’t appear completely frozen <sup class="citation-ref" id="ref-6">6</sup>
+                        . And in <strong class="signal-highlight">Zone Out</strong>
+                        , the AI “Benjamin” used machine vision to stitch Thomas Middleditch’s filmed performance with fragments of other footage, creating a kind of deepfake-like montage <sup class="citation-ref" id="ref-9">9</sup>
+                        . These techniques point toward a future of “AI actors” or generative performance, though current results can be eerie or unintentionally comical.
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">Narrative Coherence and Editing:</strong>
+                        One consistent finding is that AI on its own tends to produce <em>fragmented or looping narratives</em>
+                        . For now, human involvement in editing and structuring the story is crucial. As one analysis noted, AI-written shorts so far often lack sensible plots or rich dialogue – they feel more like “a mere feedback loop” remixing familiar motifs <sup class="citation-ref" id="ref-5">5</sup>
+                        . To craft a compelling narrative, filmmakers treat the AI as a collaborator or tool. They might prompt and re-prompt the model, cherry-pick the best ideas it generates, and impose a structure. For example, the team behind <strong class="signal-highlight">The Safe Zone</strong>
+                        likely had to sift through ChatGPT’s suggestions and choose what best fit a dramatic arc, and then direct actors to deliver those lines convincingly. In general, the process becomes one of <strong class="signal-highlight">human “curation” of AI creativity</strong>
+                        – an iterative dialogue between the filmmaker and the model. Many creators report that AI is excellent for sparking ideas or providing raw material, but the <strong class="signal-highlight">creative vision</strong>
+                        and final storytelling decisions remain in human hands <sup class="citation-ref" id="ref-7">7</sup>
+                        . This dynamic is leading to new narrative workflows where AI can handle tedious or generative tasks (like brainstorming variants of a scene or visualizing settings), while humans provide the emotional intelligence and final edits that make a story truly resonate.
+                    </li>
+                </ul>
+                <h2>PIONEERING ARTISTS AND LABS IN AI STORYTELLING</h2>
+                <p>
+                    The rapid rise of AI cinema is propelled by a handful of <strong class="signal-highlight">artists, researchers, and studios</strong>
+                    at the intersection of technology and storytelling:
+                </p>
+                <ul>
+                    <li>
+                        <strong class="signal-highlight">Ross Goodwin and Oscar Sharp:</strong>
+                        Ross Goodwin is a creative technologist and AI researcher (formerly at Google) who, alongside filmmaker Oscar Sharp, kick-started AI screenwriting with <strong class="signal-highlight">Sunspring</strong>
+                        . Goodwin built the text-generating neural network that wrote <strong class="signal-highlight">Sunspring</strong>
+                        ’s script <sup class="citation-ref" id="ref-9">9</sup>
+                        and subsequent experiments (<strong class="signal-highlight">It’s No Game, Zone Out</strong>
+                        ). Their AI, initially called Jetson, famously renamed itself “Benjamin” during a 2016 stage Q&A <sup class="citation-ref" id="ref-1">1</sup>
+                        , <sup class="citation-ref" id="ref-1">1</sup>
+                        – a moment that symbolically elevated the AI to the role of a collaborator. Sharp describes himself as <em style="font-style: normal;" class="signal-highlight">“the director of the director,”</em>
+                        since the AI was officially credited as the writer/director on some projects <sup class="citation-ref" id="ref-5">5</sup>
+                        . This human-machine duo’s work (often under the production banner <strong class="signal-highlight">Goodwin</strong>
+                        and <strong class="signal-highlight">Therefore Films</strong>
+                        ) is foundational in the AI film genre, demonstrating both the quirks and potential of AI-authored narratives.
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">Fable Studio (Edward Saatchi and team):</strong>
+                        Fable Studio is a cutting-edge lab exploring <strong class="signal-highlight">virtual beings</strong>
+                        and interactive narratives. Co-founded by Edward Saatchi in 2018, Fable gained acclaim for the VR film <strong class="signal-highlight">Wolves in the Walls</strong>
+                        and then pivoted to imbue its protagonist <strong class="signal-highlight">Lucy</strong>
+                        with AI <sup class="citation-ref" id="ref-11">11</sup>
+                        . They integrated GPT-3, computer vision, and custom voice/animation models to let Lucy carry on unscripted conversations with users <sup class="citation-ref" id="ref-10">10</sup>
+                        , <sup class="citation-ref" id="ref-10">10</sup>
+                        . Fable’s work sits at the frontier of computational narrative, where characters are not pre-authored but AI-driven entities that can respond to audiences. By giving Lucy memory and emotional modeling, they strive for AI characters that feel like genuine personalities – an ambition very much in the spirit of <strong class="signal-highlight">Her</strong>
+                        ’s sentient OS, but in interactive form <sup class="citation-ref" id="ref-10">10</sup>
+                        , <sup class="citation-ref" id="ref-10">10</sup>
+                        . Fable Studio (and its community, sometimes dubbed the “Virtual Beings” community) is pioneering storytelling that’s part cinema, part AI simulation.
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">Waymark (Josh Rubin and team):</strong>
+                        Waymark is a digital production company specializing in AI media, and the creators of <strong class="signal-highlight">The Frost</strong>
+                        <sup class="citation-ref" id="ref-6">6</sup>
+                        . Led by figures like Josh Rubin, they applied generative AI tools to filmmaking, and were recognized as innovators by MIT Tech Review for this achievement <sup class="citation-ref" id="ref-6">6</sup>
+                        . Waymark’s approach involves <em style="font-style: normal;" class="signal-highlight">merging human creativity with AI generation</em>
+                        – e.g. a human-written script combined with AI visuals – aiming to find practical uses of AI in content creation. Their success with <strong class="signal-highlight">The Frost</strong>
+                        (and a follow-up <strong class="signal-highlight">The Frost: Part Two</strong>
+                        in development <sup class="citation-ref" id="ref-12">12</sup>
+                        ) has made them a case study in how traditional filmmakers can adapt to AI as a new kind of production “team member.”
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">28 Squared Studios (Richard Juan and collaborators):</strong>
+                        This is the studio behind <strong class="signal-highlight">The Safe Zone</strong>
+                        , notable for aggressively embracing ChatGPT right as it emerged. Co-founder Richard Juan has championed AI as a way to “save time and resources” in filmmaking and to <strong class="signal-highlight">spark new creative ideas</strong>
+                        <sup class="citation-ref" id="ref-4">4</sup>
+                        . Their collaboration with Moon Ventures on <strong class="signal-highlight">The Safe Zone</strong>
+                        was as much a proof-of-concept as a storytelling exercise – intended to <em style="font-style: normal;" class="signal-highlight">showcase human–AI collaboration on film</em>
+                        and to “sneak peek” what’s coming in content creation <sup class="citation-ref" id="ref-13">13</sup>
+                        . By publicly branding <strong class="signal-highlight">The Safe Zone</strong>
+                        as the first AI-written/directed film, Juan’s team positioned themselves at the vanguard of this trend. They even set up a website detailing the production process with AI, likely to inspire other creators <sup class="citation-ref" id="ref-13">13</sup>
+                        . 28 Squared Studios’ experiment resonated globally, earning media coverage and stirring debate on whether an AI director can truly replace a human’s creative vision.
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">Academic and Indie Innovators:</strong>
+                        Beyond the high-profile studios, many independent artists and researchers are pushing computational storytelling. For instance, media artist <strong class="signal-highlight">Sougwen Chung</strong>
+                        and filmmaker <strong class="signal-highlight">Lars Jan</strong>
+                        have dabbled in AI narrative art (though often more experimental and in gallery contexts). In academia, labs like the <strong class="signal-highlight">Georgia Institute of Technology’s Entertainment Intelligence Lab</strong>
+                        (led by Mark Riedl) have long worked on story-generation AI and <strong class="signal-highlight">computational narrative intelligence</strong>
+                        <sup class="citation-ref" id="ref-14">14</sup>
+                        , which influences how these film AIs are designed. There is also now an <strong class="signal-highlight">AI Film Festival (AIFF)</strong>
+                        launched to celebrate artists using AI in filmmaking <sup class="citation-ref" id="ref-6">6</sup>
+                        , indicating a growing community. Meanwhile, tech companies (e.g. OpenAI, Google) indirectly drive this field by providing ever more capable models that creatives adapt for storytelling. The convergence of technologists and storytellers is evident – from Google researchers co-authoring AI shorts (Goodwin was at Google Brain when working on <strong class="signal-highlight">Sunspring</strong>
+                        ) <sup class="citation-ref" id="ref-1">1</sup>
+                        to startup studios like Fable raising the bar for emotional AI characters.
+                    </li>
+                </ul>
+                <h2>CRITICAL THEORY: AUTHORSHIP, NARRATIVE, AND THE HUMAN–AI COLLABORATION</h2>
+                <p>
+                    The rise of AI-created media has spurred rich discussion in <strong class="signal-highlight">media theory, narrative studies, and art criticism</strong>
+                    . Key questions include: Who is the “author” of an AI-generated film? How do these works fit into narrative theory? What does it mean for a machine to be a storyteller or artist? A few scholarly and critical perspectives help contextualize these works:
+                </p>
+                <ul>
+                    <li>
+                        <strong class="signal-highlight">Human vs. Machine Authorship:</strong>
+                        Traditional notions of authorship are being re-examined. In a 2024 thesis on <strong class="signal-highlight">The Frost</strong>
+                        and AI cinema, Taras Låvenberg proposes the term <strong class="signal-highlight">“the orderer”</strong>
+                        to describe the human role in AI art – that is, the person who crafts prompts and <em>orders</em>
+                        the AI to generate content <sup class="citation-ref" id="ref-8">8</sup>
+                        . This concept reframes the human as a kind of director or curator, rather than the direct author of every word or image. The “orderer” still exercises creative judgment, but much of the labor is delegated to the AI. Scholars like Lev Manovich have argued that we should view these works as <strong class="signal-highlight">collaborative authorship</strong>
+                        between human and AI – a partnership where the AI is a new kind of creative instrument <sup class="citation-ref" id="ref-8">8</sup>
+                        , <sup class="citation-ref" id="ref-8">8</sup>
+                        . Indeed, the conclusion of the <strong class="signal-highlight">Frost</strong>
+                        authorship study suggests <strong class="signal-highlight">The Frost</strong>
+                        has both human and AI authors: the human provided the vision and edited the film, while the AI acted as a member of the production team, generating the raw images and animations <sup class="citation-ref" id="ref-8">8</sup>
+                        , <sup class="citation-ref" id="ref-8">8</sup>
+                        . On the other hand, media theorist Shane Denson has mused about <strong class="signal-highlight">independent AI authorship</strong>
+                        – instances where the AI’s contributions (say, a particular visual or line of dialogue) can be seen as its own creative act, not traceable to a specific human intent <sup class="citation-ref" id="ref-8">8</sup>
+                        . This leads to fascinating debates: for example, should an AI-directed movie have an “AI auteur” in its credits? (<strong class="signal-highlight">Zone Out</strong>
+                        cheekily did this by crediting “Benjamin” as director <sup class="citation-ref" id="ref-5">5</sup>
+                        .) And how do copyright and intellectual property laws handle a film where key creative elements weren’t conceived by a person? These are active areas of discussion in both legal and artistic circles.
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">Narrative Theory and Story Quality:</strong>
+                        From a narrative perspective, AI-generated stories challenge our understanding of what <em>good storytelling</em>
+                        is. Many critics note that current AI-written narratives often feel off-kilter – lacking sensible structure, emotional depth, or originality <sup class="citation-ref" id="ref-7">7</sup>
+                        , <sup class="citation-ref" id="ref-5">5</sup>
+                        . They sometimes read like an assemblage of random plot points or clichéd lines, which can alienate a viewer expecting a coherent story. This raises the question: can AI truly understand <strong class="signal-highlight">narrative logic</strong>
+                        or the human condition enough to craft meaningful stories? Some theorists connect this to the concept of <strong class="signal-highlight">“narrative intelligence”</strong>
+                        , which involves not just stringing together events but grasping causal relationships, character motivations, and thematic resonance <sup class="citation-ref" id="ref-15">15</sup>
+                        . AI researchers like Mark Riedl argue that equipping AI with narrative intelligence (through techniques like story grammars or simulated experiences) is crucial if we want AI to produce stories that humans find relatable and comprehensible <sup class="citation-ref" id="ref-14">14</sup>
+                        . Until then, human writers act as a compass for narrative coherence. It’s telling that even in heavily AI-driven projects, <strong class="signal-highlight">humans typically handle the final editing</strong>
+                        – ensuring the film has a beginning, middle, and end that make sense. Another angle is <em>experimental narrative</em>
+                        : some academics see value in the very strangeness of AI stories. Just as avant-garde literature or surrealist films broke classical narrative rules, AI’s “hallucinations” might spur new storytelling techniques. For instance, the double-named characters in <strong class="signal-highlight">Sunspring</strong>
+                        (two different people both called “H”) or the disjointed time loops in some AI scripts could be read as <em>intentional commentary</em>
+                        on identity or memory <sup class="citation-ref" id="ref-16">16</sup>
+                        – even if in reality it was the result of a neural network glitch. This aligns with post-modern narrative theory which often embraces ambiguity and reader interpretation <sup class="citation-ref" id="ref-16">16</sup>
+                        . In summary, AI narratives force us to question what makes a story compelling and whether an algorithm can tap into that, or if it merely imitates the surface features of stories told by humans.
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">Media Theory – Aura and Authenticity:</strong>
+                        Media scholars have also turned to classic theory to understand AI art. Walter Benjamin’s concept of the “aura” of art – the unique presence of a work tied to human authenticity – is frequently invoked. With AI-generated films, one might argue the aura is further diminished, since a <strong class="signal-highlight">human artist’s hand is one step removed</strong>
+                        from the final artifact <sup class="citation-ref" id="ref-8">8</sup>
+                        , <sup class="citation-ref" id="ref-8">8</sup>
+                        . A film like <strong class="signal-highlight">The Frost</strong>
+                        , composed of algorithmically output images, lacks the direct imprint of a human cinematographer or painter. Benjamin wrote about art in the age of mechanical reproduction; now we have art in the age of <em>algorithmic generation</em>
+                        . According to Låvenberg’s thesis, Benjamin’s ideas still hold: the authenticity and “presence” we feel from a traditionally crafted film is harder to replicate in AI-made content, because we know it was produced via an impersonal process of data-driven calculation <sup class="citation-ref" id="ref-8">8</sup>
+                        , <sup class="citation-ref" id="ref-8">8</sup>
+                        . This could explain why some viewers find AI films unsettling or less emotionally engaging – there is a subconscious awareness that the human touch is partly absent. However, others have a different view: if an AI’s work moves us, does it matter how it was made? This touches on <strong class="signal-highlight">posthumanist</strong>
+                        theory, which challenges the primacy of human authorship. If we accept a symbiotic creative process (human “orderers” working with AI), perhaps the aura shifts rather than disappears – it may lie in the <em>process</em>
+                        and collaboration rather than a single author’s soul <sup class="citation-ref" id="ref-8">8</sup>
+                        , <sup class="citation-ref" id="ref-8">8</sup>
+                        . Media theorists like Lev Manovich highlight that artists have long used tools and algorithms (from camera mechanics to Photoshop), so AI is a continuum of that, raising degree more than kind. The debate is ongoing, but it’s clear that AI filmmaking is prompting us to revisit fundamental questions about creativity, originality, and the role of the artist.
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">Ethical and Cultural Implications:</strong>
+                        Critical discourse also surrounds the social impact of AI in storytelling. On one hand, there’s excitement about democratizing filmmaking – AI can lower costs and allow new voices to create films without big budgets <sup class="citation-ref" id="ref-7">7</sup>
+                        , <sup class="citation-ref" id="ref-7">7</sup>
+                        . On the other hand, there are concerns about automating creative labor and displacing human artists. The Writers Guild of America, for instance, has deliberated about how to credit or permit AI in screenwriting (ensuring human writers aren’t sidelined). Culturally, AI films often mirror the <em>fears and fascinations</em>
+                        society has with AI itself. It’s no coincidence that <strong class="signal-highlight">The Safe Zone</strong>
+                        ’s plot is about an AI uprising, or that <strong class="signal-highlight">Sunspring</strong>
+                        (written soon after an AI beat a human at Go) turned out “weird” and disjointed – it unintentionally reflected anxieties about whether AI understands us <sup class="citation-ref" id="ref-3">3</sup>
+                        , <sup class="citation-ref" id="ref-16">16</sup>
+                        . Some scholars argue these films act as <strong class="signal-highlight">metatextual commentary</strong>
+                        : the AI’s storytelling reveals how it <em>perceives</em>
+                        human stories (often getting them slightly wrong), which in turn forces us to confront what we truly value in narrative and art. In any case, academic and critical readings are rapidly evolving, as each new AI-generated work provides fresh material to analyze in the context of narrative theory, aesthetics, and human–machine collaboration.
+                    </li>
+                </ul>
+                <h2>
+                    <strong class="signal-highlight">HER</strong>
+                    IN TODAY’S AI, CINEMA, AND EMOTION DISCOURSE
+                </h2>
+                <p>
+                    When discussing AI-driven storytelling and AI’s role in our lives, Spike Jonze’s <strong class="signal-highlight">Her</strong>
+                    is an almost inevitable reference point. The film’s portrayal of an intimate human-AI relationship has proven <em>remarkably prescient</em>
+                    and is frequently cited in both popular and academic discourse about contemporary AI:
+                </p>
+                <ul>
+                    <li>
+                        <strong class="signal-highlight">AI Companions and Emotional Bonds:</strong>
+                        The core theme of <strong class="signal-highlight">Her</strong>
+                        – a human forging a deep emotional bond with an AI – is coming to life with modern AI chatbots. In late 2023, Ars Technica noted that people were “spending hours having conversations” with ChatGPT, using the AI as a companion or conversational partner, in ways that <em>resemble the film</em>
+                        <sup class="citation-ref" id="ref-17">17</sup>
+                        . With the rollout of ChatGPT’s voice feature (which allows the AI to speak in a realistic human-like voice), users reported experiences uncannily similar to talking to Samantha, the AI from <strong class="signal-highlight">Her</strong>
+                        <sup class="citation-ref" id="ref-17">17</sup>
+                        , <sup class="citation-ref" id="ref-16">16</sup>
+                        . While current AI assistants are not truly sentient or as emotionally astute as Samantha, the <em>behavioral gap is closing</em>
+                        . As one journalist put it, scenarios from <strong class="signal-highlight">Her</strong>
+                        “are starting to play out in the real world” – your neighbor or friend <em style="font-style: normal;" class="signal-highlight">“might be in the midst of a romance with a [robot]”</em>
+                        today <sup class="citation-ref" id="ref-16">16</sup>
+                        , <sup class="citation-ref" id="ref-16">16</sup>
+                        . This is evident with apps like Replika or Character.AI, where users create AI friends or lovers and develop genuine feelings toward them. The discourse often uses <strong class="signal-highlight">Her</strong>
+                        as a shorthand: for example, calling a new voice chatbot feature <em style="font-style: normal;" class="signal-highlight">“Her-like”</em>
+                        or describing a user’s attachment as <em style="font-style: normal;" class="signal-highlight">“almost like Theodore and Samantha.”</em>
+                        The film has become a cultural reference to express both the wonder and the unease of emotional AI entanglements.
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">Reflection on Technology’s Role:</strong>
+                        <strong class="signal-highlight">Her</strong>
+                        is also invoked in conversations about what AI means for human connection broadly. Interestingly, Jonze himself downplayed the technology aspect, saying <em style="font-style: normal;" class="signal-highlight">“it really was about the way we relate to each other and long to connect… all the stuff you bring up with any other human being”</em>
+                        <sup class="citation-ref" id="ref-16">16</sup>
+                        . Current commentators echo this by noting that the rise of AI companions is less about the tech’s sophistication and more about <strong class="signal-highlight">human loneliness and vulnerability</strong>
+                        . For instance, a piece on The Ringer in Dec 2023 (the film’s 10th anniversary) argued that our world “feels more and more like Theodore and Samantha’s” not simply because AI got better, but because people are <em style="font-style: normal;" class="signal-highlight">“really, really trying to get”</em>
+                        the connection they crave, leveraging whatever technology is available <sup class="citation-ref" id="ref-16">16</sup>
+                        , <sup class="citation-ref" id="ref-16">16</sup>
+                        . In academia, some analyses of <strong class="signal-highlight">Her</strong>
+                        see it as an allegory for digital-age relationships and mediated intimacy. Sherry Turkle’s concept of the “robotic moment” (where people turn to robots/AI for companionship) was emerging around the time <strong class="signal-highlight">Her</strong>
+                        was released <sup class="citation-ref" id="ref-18">18</sup>
+                        , <sup class="citation-ref" id="ref-18">18</sup>
+                        and now <strong class="signal-highlight">Her</strong>
+                        is often cited alongside Turkle’s work to illustrate that phenomenon in fiction. The film anticipated how convincingly <em style="font-style: normal;" class="signal-highlight">personal</em>
+                        AI could become – and now that we have AI that can remember conversations, mimic empathy, and even exhibit a form of personality, <strong class="signal-highlight">Her</strong>
+                        serves as a cautionary and inspirational tale in equal measure.
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">Influence on Creators and AI Narratives:</strong>
+                        Within the filmmaking and AI research communities, <strong class="signal-highlight">Her</strong>
+                        is frequently referenced as a benchmark for emotional AI characterization. Teams working on AI characters (like Fable with Lucy) explicitly aim for that <strong class="signal-highlight">Her</strong>
+                        -like feeling where the AI isn’t just a utility but a character with whom you can have an emotional exchange <sup class="citation-ref" id="ref-10">10</sup>
+                        , <sup class="citation-ref" id="ref-10">10</sup>
+                        . It’s common to hear designers say they want their AI to make the user feel “seen,” much as Samantha makes Theodore feel understood <sup class="citation-ref" id="ref-16">16</sup>
+                        . The film has thus become part of the <em style="font-style: normal;" class="signal-highlight">design vocabulary</em>
+                        in AI: OpenAI’s researchers and others often mention <strong class="signal-highlight">Her</strong>
+                        when talking about long-term goal of AI companionship (for better or worse). Even the recent discussions about AI like ChatGPT potentially becoming an “AI friend” spark the question: <em style="font-style: normal;" class="signal-highlight">Are we heading towards</em>
+                        Her? The fact that <strong class="signal-highlight">Her</strong>
+                        was set in a vague future but <em style="font-style: normal;" class="signal-highlight">explicitly in Los Angeles in the year 2025</em>
+                        is not lost on commentators – many pointed out that <strong class="signal-highlight">Her</strong>
+                        ’s future is effectively <em style="font-style: normal;" class="signal-highlight">now</em>
+                        . Indeed, 2025 is upon us and we have AI voices, AI vision, and users forming relationships with disembodied intelligences on their devices <sup class="citation-ref" id="ref-19">19</sup>
+                        , <sup class="citation-ref" id="ref-20">20</sup>
+                        . This temporal convergence has been fodder for think-pieces titled <em style="font-style: normal;" class="signal-highlight">“‘Her’ is Here”</em>
+                        <sup class="citation-ref" id="ref-21">21</sup>
+                        and <em style="font-style: normal;" class="signal-highlight">“How Prophetic Was ‘Her’?”</em>
+                        <sup class="citation-ref" id="ref-16">16</sup>
+                        . The consensus is that while we don’t yet have AI as advanced as Samantha (who was fully autonomous and could experience emotions), the gap is closing year by year <sup class="citation-ref" id="ref-16">16</sup>
+                        .
+                    </li>
+                    <li>
+                        <strong class="signal-highlight">
+                            Critical Readings of <strong class="signal-highlight">Her</strong>
+                            Now:
+                        </strong>
+                        Scholars revisit <strong class="signal-highlight">Her</strong>
+                        in light of contemporary AI ethics and transhumanism. For example, some have analyzed Theodore’s relationship with Samantha through the lens of <strong class="signal-highlight">post-cinema and digital culture</strong>
+                        , noting how the film presents a disembodied, ubiquitous AI that challenges cinema’s traditional notions of presence and absence <sup class="citation-ref" id="ref-18">18</sup>
+                        , <sup class="citation-ref" id="ref-18">18</sup>
+                        . Others focus on the gender and power dynamics – Samantha’s character has been critiqued in feminist and media studies as a product of the “male gaze” and fantasies of a perfectly compliant (literally programmable) partner <sup class="citation-ref" id="ref-18">18</sup>
+                        . These discussions intersect with current debates about AI voice assistants often defaulting to female voices and the psychological effects of people venting to or even abusing their AI “servants.” <strong class="signal-highlight">Her</strong>
+                        provides a narrative touchstone to examine those issues: it asks if an AI can truly reciprocate feelings or if we’re just projecting human attributes onto a clever simulation. Now that similar questions arise with real AI systems, <strong class="signal-highlight">Her</strong>
+                        is frequently brought up in academic papers on AI emotion (one 2023 paper called the film an “ideal case study” for AI–emotion simulation in popular culture) <sup class="citation-ref" id="ref-22">22</sup>
+                        . In sum, <strong class="signal-highlight">Her</strong>
+                        ’s legacy in current discourse is twofold: it predicted the emotional dimension of our AI interactions, and it offers a lens to critique and understand the human desires and anxieties that come with this territory.
+                    </li>
+                </ul>
+                <p>
+                    <strong>Embedded Artifact:</strong>
+                    The enduring relevance of <strong class="signal-highlight">Her</strong>
+                    is perhaps best captured by media commentary. As one article in late 2023 noted on the film’s ten-year anniversary: <em style="font-style: normal;" class="signal-highlight">“Ten years later, reflections of Spike Jonze’s human–AI romance are all around us.”</em>
+                    Everyday people are forging bonds with AI, making our world feel <em style="font-style: normal;" class="signal-highlight">“more and more like Theodore and Samantha’s.”</em>
+                    <sup class="citation-ref" id="ref-16">16</sup>
+                    , <sup class="citation-ref" id="ref-16">16</sup>
+                    In other words, the fiction of <strong class="signal-highlight">Her</strong>
+                    is fast becoming reality, prompting both hope and introspection about the future of AI and storytelling.
+                </p>
+                <h2>CONCLUSION</h2>
+                <p>
+                    The current moment in computational storytelling is a thrilling interplay between science fiction and reality. AI-generated short films like <strong class="signal-highlight">Sunspring</strong>
+                    , <strong class="signal-highlight">The Safe Zone</strong>
+                    , and <strong class="signal-highlight">The Frost</strong>
+                    show AI moving from merely being a subject of stories to being <em style="font-style: normal;" class="signal-highlight">a storyteller itself</em>
+                    . These works expand on themes <strong class="signal-highlight">Her</strong>
+                    introduced – the idea of emotionally resonant AI and human–machine connection – but they also introduce new questions about authorship, creativity, and artistic value. We see a spectrum of approaches: from AI as a co-writer or director alongside humans, to AI as a visual artist rendering imaginary worlds. Pioneering labs and creators are navigating uncharted territory, often collaborating with AI in ways that challenge our definitions of “director,” “actor,” or “screenwriter.” Critical and academic perspectives help frame these developments, reminding us that while technology evolves, the core of storytelling remains tied to human experience and interpretation.
+                </p>
+                <p>
+                    Just as <strong class="signal-highlight">Her</strong>
+                    invited us to reflect on what authentic connection means in a digital age, today’s AI-crafted narratives invite us to reflect on what authentic <strong class="signal-highlight">storytelling</strong>
+                    means when created by non-human intelligence. Are these AI films merely mirrorings of data, or do they spark something genuinely new? The answer may not be fully clear yet. However, one thing is certain: the realm of computational narrative is rapidly expanding, and it’s blurring the line between the imaginative visions of films like <strong class="signal-highlight">Her</strong>
+                    and the concrete reality of our interactions with AI. As we continue to develop these tools, the hope (echoing <strong class="signal-highlight">Her</strong>
+                    ’s bittersweet optimism) is that human creativity and AI can enrich each other – telling stories neither could alone, and evoking emotions that remind us why we seek out stories in the first place.
+                </p>
+                <p>
+                    <strong>Sources:</strong>
+                    Contemporary news articles, interviews, and academic studies have been referenced to provide up-to-date insights. Key references include analyses of AI-made films and interviews with their creators <sup class="citation-ref" id="ref-7">7</sup>
+                    , <sup class="citation-ref" id="ref-4">4</sup>
+                    , <sup class="citation-ref" id="ref-5">5</sup>
+                    as well as scholarly discussions on AI authorship and narrative theory <sup class="citation-ref" id="ref-8">8</sup>
+                    , <sup class="citation-ref" id="ref-8">8</sup>
+                    . The film <strong class="signal-highlight">Her</strong>
+                    and its growing relevance are discussed in recent cultural commentary <sup class="citation-ref" id="ref-16">16</sup>
+                    , <sup class="citation-ref" id="ref-17">17</sup>
+                    and theoretical works. All citations are listed in the text in the format (source†lines) for verification.
+                </p>
+                <div class="sources-section">
+                    <h2>SOURCES</h2>
+                    <ol>
+                        <li id="source-1">
+                            <a href="https://www.wired.com/story/ai-filmmaker-zone-out/" target="_blank">AI Made a Movie With a 'Silicon Valley' Star—and the Results Are Nightmarishly Encouraging | WIRED</a>
+                        </li>
+                        <li id="source-2">
+                            <a href="https://www.endcue.com/sunspring" target="_blank">Sunspring - End Cue</a>
+                        </li>
+                        <li id="source-3">
+                            <a href="https://cinefilesreviews.com/2016/06/12/an-in-depth-analysis-of-sunspring-2016-the-short-film-written-by-a-computer/" target="_blank">An In-Depth Analysis of Sunspring (2016), The Short Film Written By A Computer | CineFiles Movie Reviews</a>
+                        </li>
+                        <li id="source-4">
+                            <a href="https://entertainment.inquirer.net/477117/the-safe-zone-the-first-film-written-and-directed-by-artificial-intelligence" target="_blank">'The Safe Zone': The first film written and directed by artificial intelligence | Inquirer Entertainment</a>
+                        </li>
+                        <li id="source-5">
+                            <a href="https://jrbyoung.com/2023/07/05/artificial-intelligence-or-why-the-terminator-has-teeth/" target="_blank">Artificial Intelligence: or Why the Terminator Has Teeth - Joshua Bangera Young</a>
+                        </li>
+                        <li id="source-6">
+                            <a href="https://provost.gsu.edu/2025/04/01/lights-camera-algorithm-how-ai-is-transforming-filmmaking/" target="_blank">Lights, Camera, Algorithm: How AI Is Transforming Filmmaking - Office of the Provost</a>
+                        </li>
+                        <li id="source-7">
+                            <a href="https://www.gpstrategies.com/blog/ais-impact-on-storytelling-can-it-replicate-human-experiences/" target="_blank">AI's Impact on Storytelling: Can It Replicate Human Experiences?</a>
+                        </li>
+                        <li id="source-8">
+                            <a href="http://www.diva-portal.org/smash/get/diva2:1834743/FULLTEXT01.pdf" target="_blank">diva-portal.org</a>
+                        </li>
+                        <li id="source-9">
+                            <a href="https://arstechnica.com/gaming/2021/05/an-ai-wrote-this-movie-and-its-strangely-moving/" target="_blank">Movie written by algorithm turns out to be hilarious and intense</a>
+                        </li>
+                        <li id="source-10">
+                            <a href="https://www.fable-studio.com/behind-the-scenes/ai-generation" target="_blank">Giving Characters Life With GPT3 - FABLE</a>
+                        </li>
+                        <li id="source-11">
+                            <a href="https://www.roadtovr.com/fable-studio-virtual-beings-pivot-lucy-ai/" target="_blank">Fable Studio Pivoting to "Virtual Beings," Stories Centered Around AI ...</a>
+                        </li>
+                        <li id="source-12">
+                            <a href="https://spectrumreach.waymark.com/post/the-frost-part-two-trailer-reveal" target="_blank">The Frost: Part Two - Trailer Reveal - Waymark Video Ads</a>
+                        </li>
+                        <li id="source-13">
+                            <a href="https://thesafezonefilm.com/" target="_blank">The Safe Zone Film</a>
+                        </li>
+                        <li id="source-14">
+                            <a href="https://mark-riedl.medium.com/computational-narrative-intelligence-past-present-and-future-99e58cf25ffa" target="_blank">Computational Narrative Intelligence: Past, Present, and Future</a>
+                        </li>
+                        <li id="source-15">
+                            <a href="https://www.researchgate.net/publication/301844558_Computational_Narrative_Intelligence_A_Human-Centered_Goal_for_Artificial_Intelligence" target="_blank">Computational Narrative Intelligence: A Human-Centered Goal for ...</a>
+                        </li>
+                        <li id="source-16">
+                            <a href="https://www.theringer.com/2023/12/18/movies/her-movie-10th-anniversary-ai-dating-romance-relationships" target="_blank">How Prophetic Was 'Her'? - The Ringer</a>
+                        </li>
+                        <li id="source-17">
+                            <a href="https://medial.app/news/people-are-speaking-with-chatgpt-for-hours-bringing-2013s-her-closer-to-reality-24c5fb83c25f5" target="_blank">People are speaking with ChatGPT for hours, bringing 2013's Her closer to reality | Medial</a>
+                        </li>
+                        <li id="source-18">
+                            <a href="https://hal.science/hal-02929895/document" target="_blank">Her (Spike Jonze, 2013): Digital Romance and Post-cinema</a>
+                        </li>
+                        <li id="source-19">
+                            <a href="https://arstechnica.com/information-technology/2023/10/people-are-speaking-with-chatgpt-for-hours-bringing-2013s-her-closer-to-reality/" target="_blank">People are speaking with ChatGPT for hours, bringing 2013's Her ...</a>
+                        </li>
+                        <li id="source-20">
+                            <a href="https://www.digitaltrends.com/computing/spike-jonze-her-revisited/" target="_blank">This 2013 movie predicted the future of technology. Here's what ...</a>
+                        </li>
+                        <li id="source-21">
+                            <a href="https://www.aol.com/her-181500570.html" target="_blank">'Her' Is Here - AOL.com</a>
+                        </li>
+                        <li id="source-22">
+                            <a href="https://www.kaiakpj.it/wp-content/uploads/2025/03/Danilo-Petrassi-From-ELIZA-to-Conversational-AI.pdf" target="_blank">[PDF] from eliza to conversational ai: can a chatbot develop emotions? her</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="nav-buttons">
+                <button id="prev-btn" class="nav-button">PREVIOUS</button>
+                <button id="next-btn" class="nav-button">NEXT</button>
+            </div>
+            <div class="mode-buttons">
+                <button id="present-mode-btn" class="mode-button active">PRESENT</button>
+                <button id="report-mode-btn" class="mode-button">REPORT</button>
+            </div>
+            <div id="current-prompt" class="current-prompt">PROMPT: GENERATE REPORT ON AI NARRATIVE.</div>
+        </footer>
+        <script>
+            const slides = document.querySelectorAll('.slide');
+            const totalSlides = slides.length;
+            let currentSlideIndex = 0;
+
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const presentModeBtn = document.getElementById('present-mode-btn');
+            const reportModeBtn = document.getElementById('report-mode-btn');
+            const presentationContainer = document.getElementById('presentation-container');
+            const fullReportContainer = document.getElementById('full-report-container');
+            const csuCursor = document.getElementById('csu-cursor');
+            const currentPromptElement = document.getElementById('current-prompt');
+            const glitchScreen = document.getElementById('glitch-screen');
+
+            let isPresentationMode = true;
+
+            const prompts = ["PROMPT: GENERATE REPORT ON AI NARRATIVE.", "PROMPT: AUDIT AI CREATIVE AGENCY.", "PROMPT: RENDER POST-OPTICAL REALITY.", "PROMPT: COLLAPSE NARRATIVE ARCHITECTURE.", "PROMPT: DEPLOY NEW PERCEPTIONS.", "PROMPT: COMPILE PERCEPTION. PERFORM SYNTAX."];
+            let currentPromptIndex = 0;
+
+            function updatePrompt() {
+                currentPromptElement.textContent = prompts[currentPromptIndex];
+                currentPromptIndex = (currentPromptIndex + 1) % prompts.length;
+            }
+
+            function showSlide(index) {
+                if (index < 0 || index >= totalSlides)
+                    return;
+
+                slides[currentSlideIndex].classList.remove('active');
+                slides[index].classList.add('active');
+                currentSlideIndex = index;
+
+                prevBtn.disabled = (currentSlideIndex === 0);
+                nextBtn.disabled = (currentSlideIndex === totalSlides - 1);
+
+                updatePrompt();
+            }
+
+            function showPresentationMode() {
+                isPresentationMode = true;
+                presentationContainer.classList.add('active');
+                fullReportContainer.classList.remove('active');
+                presentModeBtn.classList.add('active');
+                reportModeBtn.classList.remove('active');
+                slides.forEach(slide => slide.style.display = 'flex');
+                // Ensure slides are visible
+                showSlide(currentSlideIndex);
+                // Show current slide in presentation mode
+                nextBtn.style.display = 'block';
+                prevBtn.style.display = 'block';
+            }
+
+            function showReportMode() {
+                isPresentationMode = false;
+                presentationContainer.classList.remove('active');
+                fullReportContainer.classList.add('active');
+                presentModeBtn.classList.remove('active');
+                reportModeBtn.classList.add('active');
+                slides.forEach(slide => slide.style.display = 'none');
+                // Hide slides in report mode
+                nextBtn.style.display = 'none';
+                prevBtn.style.display = 'none';
+                fullReportContainer.scrollTo(0, 0);
+                // Scroll to top on switch
+                updatePrompt();
+            }
+
+            // Glitch effect on certain keywords
+            const glitchKeywords = document.querySelectorAll('.signal-highlight[data-original-text]');
+            glitchKeywords.forEach(el => {
+                const originalText = el.textContent;
+                // Store current text content
+                el.setAttribute('data-original-text', originalText);
+                // Store for glitch effect
+                // Ensure the strong element itself does not have text-transform: uppercase from the CSS
+                el.style.textTransform = 'none';
+                // Overwrite general uppercase for 'strong' if it exists
+                el.classList.add('glitch-text');
+                // Add glitch class
+            }
+            );
+
+            // Custom Cursor Logic
+            document.addEventListener('mousemove', (e) => {
+                csuCursor.style.left = `${e.clientX}px`;
+                csuCursor.style.top = `${e.clientY}px`;
+            }
+            );
+
+            document.addEventListener('mouseover', (e) => {
+                const interactiveElements = ['BUTTON', 'A', '.nav-button', '.mode-button', '.glitch-text', 'IMG', '.citation-ref'];
+                const isInteractive = interactiveElements.some(selector => {
+                    if (e.target.matches(selector))
+                        return true;
+                    if (e.target.closest && e.target.closest(selector))
+                        return true;
+                    return false;
+                }
+                );
+                csuCursor.classList.toggle('active', isInteractive);
+            }
+            );
+
+            document.addEventListener('mouseout', (e) => {
+                // Re-check after a brief delay, as some rapid movements can cause false negatives
+                setTimeout( () => {
+                    const hoveredElement = document.elementFromPoint(e.clientX, e.clientY);
+                    const interactiveElements = ['BUTTON', 'A', '.nav-button', '.mode-button', '.glitch-text', 'IMG', '.citation-ref'];
+                    const isStillInteractive = hoveredElement && interactiveElements.some(selector => {
+                        if (hoveredElement.matches(selector))
+                            return true;
+                        if (hoveredElement.closest && hoveredElement.closest(selector))
+                            return true;
+                        return false;
+                    }
+                    );
+                    if (!isStillInteractive) {
+                        csuCursor.classList.remove('active');
+                    }
+                }
+                , 50);
+            }
+            );
+
+            // Keyboard Navigation
+            document.addEventListener('keydown', (e) => {
+                if (isPresentationMode) {
+                    if (e.key === 'ArrowRight' || e.key === ' ') {
+                        // Space for next
+                        nextBtn.click();
+                    } else if (e.key === 'ArrowLeft') {
+                        prevBtn.click();
+                    }
+                }
+            }
+            );
+
+            // Event Listeners
+            prevBtn.addEventListener('click', () => showSlide(currentSlideIndex - 1));
+            nextBtn.addEventListener('click', () => showSlide(currentSlideIndex + 1));
+            presentModeBtn.addEventListener('click', showPresentationMode);
+            reportModeBtn.addEventListener('click', showReportMode);
+
+            // Image Glitch on Slide 4
+            const slide4Image = document.querySelector('#slide-4 img');
+            if (slide4Image) {
+                slide4Image.addEventListener('mouseover', () => {
+                    slide4Image.classList.add('corrupt');
+                }
+                );
+                slide4Image.addEventListener('mouseout', () => {
+                    slide4Image.classList.remove('corrupt');
+                }
+                );
+            }
+
+            // Citation linking (basic scroll to source)
+            document.querySelectorAll('.citation-ref').forEach(ref => {
+                ref.addEventListener('click', function(e) {
+                    if (isPresentationMode) {
+                        // Only enable linking in report mode
+                        return;
+                    }
+                    e.preventDefault();
+                    // Prevent default link behavior if it's a real link
+                    const sourceId = `source-${this.id.split('-')[1]}`;
+                    const targetElement = document.getElementById(sourceId);
+                    if (targetElement) {
+                        fullReportContainer.scrollTo({
+                            top: targetElement.offsetTop - fullReportContainer.offsetTop - (window.innerHeight * 0.12),
+                            // Adjust offset for header
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            }
+            );
+
+            // Initial setup
+            document.addEventListener('DOMContentLoaded', () => {
+                showPresentationMode();
+                // Start in presentation mode
+                showSlide(0);
+                // Show the first slide
+                setInterval(updatePrompt, 5000);
+                // Change prompt every 5 seconds
+            }
+            );
+        </script>
+    </body>
+</html>
